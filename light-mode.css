@@ -1,0 +1,66 @@
+:root {
+    --primary-bg-light: #f8f9fa;
+    --secondary-bg-light: #ffffff;
+    --accent-blue-light: #007bff;
+    --accent-cyan-light: #17a2b8;
+    --text-primary-light: #212529;
+    --text-secondary-light: #6c757d;
+}
+
+body.light-mode {
+    --primary-bg: var(--primary-bg-light);
+    --secondary-bg: var(--secondary-bg-light);
+    --accent-blue: var(--accent-blue-light);
+    --accent-cyan: var(--accent-cyan-light);
+    --text-primary: var(--text-primary-light);
+    --text-secondary: var(--text-secondary-light);
+    background: var(--primary-bg-light);
+    color: var(--text-primary-light);
+}
+
+.light-mode .nav-blur {
+    background: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.light-mode .text-white {
+    color: var(--text-primary-light);
+}
+
+.light-mode .text-gray-300 {
+    color: var(--text-secondary-light);
+}
+.light-mode .text-cyan-400 {
+    color: var(--accent-blue-light);
+}
+.light-mode .hero-bg {
+    background: linear-gradient(135deg, #ffffff 0%, #e9ecef 100%);
+}
+.light-mode .hero-bg::before {
+    opacity: 0.1;
+}
+.light-mode .service-card {
+    background: var(--secondary-bg-light);
+    border-color: rgba(0,0,0,0.1);
+}
+.light-mode .service-card:hover {
+    border-color: var(--accent-blue-light);
+}
+
+.light-mode .configurator {
+    background: var(--secondary-bg-light);
+    border-color: rgba(0,0,0,0.1);
+}
+
+.light-mode .bg-gray-900{
+    background-color: #e9ecef;
+}
+
+.light-mode .bg-gray-800{
+    background-color: #f8f9fa;
+}
+
+.light-mode .footer {
+    background: #e9ecef;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}

@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - EliteSolutions | Case Studies & Success Stories</title>
+    <meta name="description" content="Explore our portfolio of successful projects including custom software, mobile apps, web development, data analytics, and IT solutions for various industries.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    
+    <style>
+        :root {
+            --primary-bg: #1a1a1a;
+            --secondary-bg: #2d3748;
+            --accent-blue: #00d4ff;
+            --accent-cyan: #00ffff;
+            --accent-green: #00ff88;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a0aec0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .font-body {
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        
+        /* Navigation */
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(26, 26, 26, 0.8);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+        
+        /* Hero Section */
+        .portfolio-hero {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .portfolio-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('resources/hero-digital-abstract.jpg') center/cover;
+            opacity: 0.2;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Project Cards */
+        .project-card {
+            background: var(--secondary-bg);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
+            border-color: var(--accent-blue);
+        }
+        
+        .project-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .project-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Filter Buttons */
+        .filter-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--accent-blue);
+            color: var(--primary-bg);
+            border-color: var(--accent-blue);
+        }
+        
+        /* Technology Tags */
+        .tech-tag {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-blue);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: var(--secondary-bg);
+            border-radius: 16px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            margin: 20px;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        /* Stats */
+        .project-stat {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--primary-bg);
+            font-weight: 600;
+            padding: 12px 32px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent-blue);
+            border: 2px solid var(--accent-blue);
+            font-weight: 600;
+            padding: 12px 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--accent-blue);
+            color: var(--primary-bg);
+            transform: translateY(-2px);
+        }
+        
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in-up.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Footer */
+        .footer {
+            background: #0f172a;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .project-card img {
+                height: 200px;
+            }
+            
+            .modal-content {
+                margin: 10px;
+                max-height: 95vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-white">
+                        <span class="text-cyan-400">Elite</span>Solutions
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-gray-300 hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                        <a href="services.html" class="text-gray-300 hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Services</a>
+                        <a href="portfolio.html" class="text-cyan-400 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Portfolio</a>
+                        <a href="contact.html" class="text-gray-300 hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Contact</a>
+                    </div>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-900 bg-opacity-95">
+                <a href="index.html" class="text-gray-300 hover:text-cyan-400 block px-3 py-2 text-base font-medium">Home</a>
+                <a href="services.html" class="text-gray-300 hover:text-cyan-400 block px-3 py-2 text-base font-medium">Services</a>
+                <a href="portfolio.html" class="text-cyan-400 block px-3 py-2 text-base font-medium">Portfolio</a>
+                <a href="contact.html" class="text-gray-300 hover:text-cyan-400 block px-3 py-2 text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="portfolio-hero pt-24 pb-16">
+        <div class="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl lg:text-6xl font-bold mb-6">
+                    Our <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Portfolio</span>
+                </h1>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto font-body">
+                    Explore our collection of successful projects and case studies. 
+                    See how we've helped businesses transform through innovative technology solutions.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Project Stats -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="project-stat fade-in-up">
+                    <div class="stat-number" data-target="150">0</div>
+                    <p class="text-gray-400 mt-2">Projects Completed</p>
+                </div>
+                <div class="project-stat fade-in-up">
+                    <div class="stat-number" data-target="50">0</div>
+                    <p class="text-gray-400 mt-2">Happy Clients</p>
+                </div>
+                <div class="project-stat fade-in-up">
+                    <div class="stat-number" data-target="98">0</div>
+                    <p class="text-gray-400 mt-2">Success Rate %</p>
+                </div>
+                <div class="project-stat fade-in-up">
+                    <div class="stat-number" data-target="24">0</div>
+                    <p class="text-gray-400 mt-2">Avg. Delivery Days</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Filter Section -->
+    <section class="py-12 bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center fade-in-up">
+                <h2 class="text-3xl font-bold mb-8">Filter Projects</h2>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button class="filter-btn active" data-filter="all">All Projects</button>
+                    <button class="filter-btn" data-filter="software">Software</button>
+                    <button class="filter-btn" data-filter="mobile">Mobile Apps</button>
+                    <button class="filter-btn" data-filter="web">Web Development</button>
+                    <button class="filter-btn" data-filter="data">Data Analysis</button>
+                    <button class="filter-btn" data-filter="cctv">CCTV</button>
+                    <button class="filter-btn" data-filter="support">IT Support</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Grid -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                
+                <!-- E-commerce Platform -->
+                <div class="project-card fade-in-up" data-category="web software" data-project="ecommerce">
+                    <img src="resources/portfolio-ecommerce.jpg" alt="E-commerce Platform">
+                    <div class="p-6">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Retail Chain E-commerce Platform</h3>
+                        <p class="text-gray-400 mb-4">
+                            Complete e-commerce solution for a multi-store retail chain with inventory management, 
+                            payment processing, and customer analytics.
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-cyan-400 font-semibold">Ksh 2,500,000</span>
+                            <button class="text-cyan-400 hover:text-cyan-300 font-medium" onclick="openModal('ecommerce')">
+                                View Details →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile Banking App -->
+                <div class="project-card fade-in-up" data-category="mobile" data-project="banking">
+                    <img src="resources/portfolio-banking.jpg" alt="Mobile Banking App">
+                    <div class="p-6">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag">React Native</span>
+                            <span class="tech-tag">Firebase</span>
+                            <span class="tech-tag">Security</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Secure Mobile Banking App</h3>
+                        <p class="text-gray-400 mb-4">
+                            Cross-platform mobile banking application with biometric authentication, 
+                            real-time transactions, and advanced security features.
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-cyan-400 font-semibold">Ksh 3,500,000</span>
+                            <button class="text-cyan-400 hover:text-cyan-300 font-medium" onclick="openModal('banking')">
+                                View Details →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Data Analytics Dashboard -->
+                <div class="project-card fade-in-up" data-category="data software" data-project="analytics">
+                    <img src="resources/portfolio-analytics.jpg" alt="Data Analytics Dashboard">
+                    <div class="p-6">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">R</span>
+                            <span class="tech-tag">Tableau</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Business Intelligence Dashboard</h3>
+                        <p class="text-gray-400 mb-4">
+                            Comprehensive analytics platform with real-time data visualization, 
+                            predictive modeling, and automated reporting for enterprise clients.
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-cyan-400 font-semibold">Ksh 1,800,000</span>
+                            <button class="text-cyan-400 hover:text-cyan-300 font-medium" onclick="openModal('analytics')">
+                                View Details →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CCTV Network System -->
+                <div class="project-card fade-in-up" data-category="cctv support" data-project="cctv">
+                    <img src="resources/portfolio-cctv.jpg" alt="CCTV Network System">
+                    <div class="p-6">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag">IP Cameras</span>
+                            <span class="tech-tag">Cloud Storage</span>
+                            <span class="tech-tag">AI Analytics</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Corporate Office Security System</h3>
+                        <p class="text-gray-400 mb-4">
+                            Comprehensive security solution with 50+ IP cameras, cloud storage, 
+                            AI-powered analytics, and 24/7 monitoring for a 10-floor office building.
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-cyan-400 font-semibold">Ksh 1,200,000</span>
+                            <button class="text-cyan-400 hover:text-cyan-300 font-medium" onclick="openModal('cctv')">
+                                View Details →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Custom CRM System -->
+                <div class="project-card fade-in-up" data-category="software" data-project="crm">
+                    <img src="resources/portfolio-crm.jpg" alt="Custom CRM System">
+                    <div class="p-6">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag">.NET</span>
+                            <span class="tech-tag">SQL Server</span>
+                            <span class="tech-tag">Azure</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Custom CRM System</h3>
+                        <p class="text-gray-400 mb-4">
+                            Bespoke customer relationship management system with sales automation, 
+                            marketing integration, and advanced reporting for a B2B company.
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-cyan-400 font-semibold">Ksh 4,500,000</span>
+                            <button class="text-cyan-400 hover:text-cyan-300 font-medium" onclick="openModal('crm')">
+                                View Details →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Healthcare Website -->
+                <div class="project-card fade-in-up" data-category="web support" data-project="healthcare">
+                    <img src="resources/portfolio-healthcare.jpg" alt="Healthcare Website">
+                    <div class="p-6">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="tech-tag">WordPress</span>
+                            <span class="tech-tag">PHP</span>
+                            <span class="tech-tag">MySQL</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Healthcare Website Redesign</h3>
+                        <p class="text-gray-400 mb-4">
+                            Modern healthcare website with patient portal, appointment booking, 
+                            doctor profiles, and HIPAA-compliant security features.
+                        </p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-cyan-400 font-semibold">Ksh 850,000</span>
+                            <button class="text-cyan-400 hover:text-cyan-300 font-medium" onclick="openModal('healthcare')">
+                                View Details →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="py-20 bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="fade-in-up">
+                <h2 class="text-4xl font-bold mb-6">
+                    Ready to Start Your Project?
+                </h2>
+                <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                    Join our growing list of satisfied clients. Let's discuss how we can 
+                    transform your business with innovative technology solutions.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="btn-primary" onclick="window.location.href='contact.html'">
+                        Get Free Consultation
+                    </button>
+                    <button class="btn-secondary" onclick="window.location.href='services.html'">
+                        View Services
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Project Modals -->
+    <div id="modal-ecommerce" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('ecommerce')">&times;</button>
+            <img src="resources/portfolio-ecommerce.jpg" alt="E-commerce Platform" class="w-full h-64 object-cover">
+            <div class="p-8">
+                <h2 class="text-3xl font-bold mb-4">Retail Chain E-commerce Platform</h2>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">MongoDB</span>
+                    <span class="tech-tag">Stripe</span>
+                    <span class="tech-tag">AWS</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Project Overview</h3>
+                        <p class="text-gray-300 mb-4">
+                            Developed a comprehensive e-commerce platform for a multi-store retail chain with 
+                            15 physical locations. The solution includes centralized inventory management, 
+                            multi-channel sales integration, and advanced customer analytics.
+                        </p>
+                        
+                        <h4 class="font-semibold mb-2">Key Features:</h4>
+                        <ul class="text-gray-400 space-y-1">
+                            <li>• Real-time inventory synchronization across all stores</li>
+                            <li>• Advanced product search and filtering</li>
+                            <li>• Customer loyalty program integration</li>
+                            <li>• Mobile-responsive design</li>
+                            <li>• Automated email marketing campaigns</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Results</h3>
+                        <div class="space-y-4">
+                            <div class="project-stat">
+                                <div class="stat-number">150%</div>
+                                <p class="text-gray-400">Increase in Online Sales</p>
+                            </div>
+                            <div class="project-stat">
+                                <div class="stat-number">50%</div>
+                                <p class="text-gray-400">Reduction in Manual Processing</p>
+                            </div>
+                            <div class="project-stat">
+                                <div class="stat-number">25,000+</div>
+                                <p class="text-gray-400">Active Customers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-700 pt-6">
+                    <p class="text-cyan-400 font-semibold">Project Value: Ksh 2,500,000</p>
+                    <p class="text-gray-400">Timeline: 8 weeks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal-banking" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('banking')">&times;</button>
+            <img src="resources/portfolio-banking.jpg" alt="Mobile Banking App" class="w-full h-64 object-cover">
+            <div class="p-8">
+                <h2 class="text-3xl font-bold mb-4">Secure Mobile Banking App</h2>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="tech-tag">React Native</span>
+                    <span class="tech-tag">Firebase</span>
+                    <span class="tech-tag">Biometric Auth</span>
+                    <span class="tech-tag">Encryption</span>
+                    <span class="tech-tag">PCI DSS</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Project Overview</h3>
+                        <p class="text-gray-300 mb-4">
+                            Built a secure, cross-platform mobile banking application for a regional credit union. 
+                            The app provides comprehensive banking services with military-grade security features 
+                            and intuitive user experience.
+                        </p>
+                        
+                        <h4 class="font-semibold mb-2">Security Features:</h4>
+                        <ul class="text-gray-400 space-y-1">
+                            <li>• Biometric authentication (Face ID/Touch ID)</li>
+                            <li>• End-to-end encryption</li>
+                            <li>• Real-time fraud detection</li>
+                            <li>• Secure document upload</li>
+                            <li>• PCI DSS compliance</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Results</h3>
+                        <div class="space-y-4">
+                            <div class="project-stat">
+                                <div class="stat-number">10,000+</div>
+                                <p class="text-gray-400">Downloads in First Month</p>
+                            </div>
+                            <div class="project-stat">
+                                <div class="stat-number">4.8★</div>
+                                <p class="text-gray-400">App Store Rating</p>
+                            </div>
+                            <div class="project-stat">
+                                <div class="stat-number">99.9%</div>
+                                <p class="text-gray-400">Uptime</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-700 pt-6">
+                    <p class="text-cyan-400 font-semibold">Project Value: Ksh 3,500,000</p>
+                    <p class="text-gray-400">Timeline: 12 weeks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal-analytics" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('analytics')">&times;</button>
+            <img src="resources/portfolio-analytics.jpg" alt="Data Analytics Dashboard" class="w-full h-64 object-cover">
+            <div class="p-8">
+                <h2 class="text-3xl font-bold mb-4">Business Intelligence Dashboard</h2>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">R</span>
+                    <span class="tech-tag">Tableau</span>
+                    <span class="tech-tag">Machine Learning</span>
+                    <span class="tech-tag">AWS</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Project Overview</h3>
+                        <p class="text-gray-300 mb-4">
+                            Developed a comprehensive business intelligence platform for a manufacturing company 
+                            to optimize operations, predict maintenance needs, and improve supply chain efficiency 
+                            through data-driven insights.
+                        </p>
+                        
+                        <h4 class="font-semibold mb-2">Analytics Capabilities:</h4>
+                        <ul class="text-gray-400 space-y-1">
+                            <li>• Real-time production monitoring</li>
+                            <li>• Predictive maintenance algorithms</li>
+                            <li>• Supply chain optimization</li>
+                            <li>• Quality control analytics</li>
+                            <li>• Automated reporting system</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Results</h3>
+                        <div class="space-y-4">
+                            <div class="project-stat">
+                                <div class="stat-number">30%</div>
+                                <p class="text-gray-400">Reduction in Downtime</p>
+                            </div>
+                            <div class="project-stat">
+                                <div class="stat-number">25%</div>
+                                <p class="text-gray-400">Improvement in Efficiency</p>
+                            </div>
+                            <div class="project-stat">
+                                <div class="stat-number">$2M</div>
+                                <p class="text-gray-400">Annual Savings</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-700 pt-6">
+                    <p class="text-cyan-400 font-semibold">Project Value: Ksh 1,800,000</p>
+                    <p class="text-gray-400">Timeline: 10 weeks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal-cctv" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('cctv')">&times;</button>
+            <img src="resources/portfolio-cctv.jpg" alt="CCTV Network System" class="w-full h-64 object-cover">
+            <div class="p-8">
+                <h2 class="text-3xl font-bold mb-4">Corporate Office Security System</h2>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="tech-tag">IP Cameras</span>
+                    <span class="tech-tag">Cloud Storage</span>
+                    <span class="tech-tag">AI Analytics</span>
+                    <span class="tech-tag">Remote Monitoring</span>
+                    <span class="tech-tag">Mobile App</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Project Overview</h3>
+                        <p class="text-gray-300 mb-4">
+                            Designed and implemented a comprehensive security system for a 10-floor corporate office 
+                            building housing 500+ employees. The solution includes advanced AI-powered analytics 
+                            and cloud-based storage with 24/7 monitoring capabilities.
+                        </p>
+                        
+                        <h4 class="font-semibold mb-2">System Features:</h4>
+                        <ul class="text-gray-400 space-y-1">
+                            <li>• 50+ 4K IP cameras with night vision</li>
+                            <li>• AI-powered motion detection</li>
+                            <li>• Facial recognition system</li>
+                            <li>• Cloud storage with 90-day retention</li>
+                            <li>• Mobile app for remote monitoring</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Results</h3>
+                        <div class="space-y-4">
+                            <div class="project-stat">
+                                <div class="stat-number">100%</div>
+                                <p class="text-gray-400">Coverage Area</p>
+                            </div>
+                            <div class="project-stat">
+                                <div class="stat-number">24/7</div>
+                                <p class="text-gray-400">Monitoring</p>
+                            </div>
+                            <div class="project-stat">
+                                <div class="stat-number">99.9%</div>
+                                <p class="text-gray-400">System Uptime</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-700 pt-6">
+                    <p class="text-cyan-400 font-semibold">Project Value: Ksh 1,200,000</p>
+                    <p class="text-gray-400">Timeline: 6 weeks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal-crm" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('crm')">&times;</button>
+            <img src="resources/portfolio-crm.jpg" alt="Custom CRM System" class="w-full h-64 object-cover">
+            <div class="p-8">
+                <h2 class="text-3xl font-bold mb-4">Custom CRM System</h2>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="tech-tag">.NET</span>
+                    <span class="tech-tag">SQL Server</span>
+                    <span class="tech-tag">Azure</span>
+                    <span class="tech-tag">Power BI</span>
+                    <span class="tech-tag">API Integration</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Project Overview</h3>
+                        <p class="text-gray-300 mb-4">
+                            Built a custom CRM system for a B2B software company to manage their entire sales lifecycle, 
+                            from lead generation to customer retention. The system includes marketing automation, 
+                            customer support integration, and advanced analytics.
+                        </p>
+                        
+                        <h4 class="font-semibold mb-2">Core Modules:</h4>
+                        <ul class="text-gray-400 space-y-1">
+                            <li>• Lead management and scoring</li>
+                            <li>• Sales pipeline automation</li>
+                            <li>• Customer support ticketing</li>
+                            <li>• Marketing campaign management</li>
+                            <li>• Advanced reporting and analytics</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Results</h3>
+                        <div class="space-y-4">
+                            <div class="project-stat">
+                                <div class="stat-number">40%</div>
+                                <p class="text-gray-400">Sales Efficiency Increase</p>
+                            </div>
+                            <div class="project-stat">
+                                <div class="stat-number">60%</div>
+                                <p class="text-gray-400">Faster Lead Conversion</p>
+                            </div>
+                            <div class="project-stat">
+                                <div class="stat-number">500+</div>
+                                <p class="text-gray-400">Active Users</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-700 pt-6">
+                    <p class="text-cyan-400 font-semibold">Project Value: Ksh 4,500,000</p>
+                    <p class="text-gray-400">Timeline: 16 weeks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="modal-healthcare" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('healthcare')">&times;</button>
+            <img src="resources/portfolio-healthcare.jpg" alt="Healthcare Website" class="w-full h-64 object-cover">
+            <div class="p-8">
+                <h2 class="text-3xl font-bold mb-4">Healthcare Website Redesign</h2>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="tech-tag">WordPress</span>
+                    <span class="tech-tag">PHP</span>
+                    <span class="tech-tag">MySQL</span>
+                    <span class="tech-tag">HIPAA</span>
+                    <span class="tech-tag">Responsive</span>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Project Overview</h3>
+                        <p class="text-gray-300 mb-4">
+                            Redesigned a multi-specialty medical practice website with focus on patient experience, 
+                            accessibility, and HIPAA compliance. The solution includes patient portal integration, 
+                            online appointment booking, and comprehensive doctor profiles.
+                        </p>
+                        
+                        <h4 class="font-semibold mb-2">Key Features:</h4>
+                        <ul class="text-gray-400 space-y-1">
+                            <li>• Patient portal integration</li>
+                            <li>• Online appointment booking</li>
+                            <li>• Doctor profiles and specialties</li>
+                            <li>• HIPAA-compliant security</li>
+                            <li>• Mobile-responsive design</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3">Results</h3>
+                        <div class="space-y-4">
+                            <div class="project-stat">
+                                <div class="stat-number">200%</div>
+                                <p class="text-gray-400">Increase in Online Bookings</p>
+                            </div>
+                            <div class="project-stat">
+                                <div class="stat-number">75%</div>
+                                <p class="text-gray-400">Mobile Traffic</p>
+                            </div>
+                            <div class="project-stat">
+                                <div class="stat-number">4.9★</div>
+                                <p class="text-gray-400">Patient Satisfaction</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-700 pt-6">
+                    <p class="text-cyan-400 font-semibold">Project Value: Ksh 850,000</p>
+                    <p class="text-gray-400">Timeline: 6 weeks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-white mb-4">
+                    <span class="text-cyan-400">Elite</span>Solutions
+                </div>
+                <p class="text-gray-400 mb-6">
+                    Transforming businesses through innovative technology solutions
+                </p>
+                <div class="flex justify-center space-x-6 mb-8">
+                    <a href="mailto:elitesolutions187@gmail.com" class="text-gray-400 hover:text-cyan-400 transition-colors">
+                        elitesolutions187@gmail.com
+                    </a>
+                    <a href="tel:+254712777875" class="text-gray-400 hover:text-cyan-400 transition-colors">
+                        +254 712 777 875
+                    </a>
+                </div>
+                <p class="text-gray-500 text-sm">
+                    © 2024 EliteSolutions. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Initialize scroll animations and functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeScrollAnimations();
+            initializeFilters();
+            initializeStatsCounter();
+            initializeMobileMenu();
+        });
+        
+        // Scroll animations
+        function initializeScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.fade-in-up').forEach(el => {
+                observer.observe(el);
+            });
+        }
+        
+        // Stats counter animation
+        function initializeStatsCounter() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            const animateCounter = (element) => {
+                const target = parseInt(element.getAttribute('data-target'));
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.floor(current);
+                }, 16);
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            
+            statNumbers.forEach(stat => observer.observe(stat));
+        }
+        
+        // Filter functionality
+        function initializeFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    projectCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'block';
+                        } else {
+                            const categories = card.getAttribute('data-category');
+                            if (categories.includes(filter)) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+        }
+        
+        // Modal functionality
+        function openModal(projectId) {
+            const modal = document.getElementById(`modal-${projectId}`);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeModal(projectId) {
+            const modal = document.getElementById(`modal-${projectId}`);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        // Close modal when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Mobile menu functionality
+        function initializeMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        }
+        
+        // Keyboard navigation for modals
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const activeModal = document.querySelector('.modal.active');
+                if (activeModal) {
+                    activeModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+    </script

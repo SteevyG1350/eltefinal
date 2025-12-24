@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - EliteSolutions | Get Your Free Technology Consultation</title>
+    <meta name="description" content="Contact EliteSolutions for custom software development, mobile apps, web development, data analysis, CCTV installation, and IT support. Get your free consultation today.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dONTb4i1Vmjc0k"></script>
+    
+    <style>
+        :root {
+            --primary-bg: #1a1a1a;
+            --secondary-bg: #2d3748;
+            --accent-blue: #00d4ff;
+            --accent-cyan: #00ffff;
+            --accent-green: #00ff88;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a0aec0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .font-body {
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        
+        /* Navigation */
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            background: rgba(26, 26, 26, 0.8);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+        
+        /* Hero Section */
+        .contact-hero {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('resources/hero-digital-abstract.jpg') center/cover;
+            opacity: 0.2;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Contact Cards */
+        .contact-card {
+            background: var(--secondary-bg);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .contact-card:hover::before {
+            opacity: 1;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
+            border-color: var(--accent-blue);
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--secondary-bg);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+        
+        .form-input.error {
+            border-color: #ef4444;
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+        }
+        
+        /* Service Selection */
+        .service-option {
+            background: rgba(45, 55, 72, 0.5);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+        }
+        
+        .service-option:hover {
+            border-color: var(--accent-blue);
+            background: rgba(0, 212, 255, 0.1);
+        }
+        
+        .service-option.selected {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 255, 255, 0.1);
+        }
+        
+        /* Map */
+        #map {
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        /* FAQ Styles */
+        .faq-item {
+            background: var(--secondary-bg);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+        
+        .faq-answer {
+            padding: 0 20px 20px;
+            color: var(--text-secondary);
+            display: none;
+        }
+        
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--primary-bg);
+            font-weight: 600;
+            padding: 12px 32px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in-up.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent-blue);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Success/Error Messages */
+        .message {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .message.success {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: var(--accent-green);
+        }
+        
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #0f172a;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .contact-card {
+                padding: 20px;
+            }
+            
+            #map {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-blur">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-white">
+                        <span class="text-cyan-400">Elite</span>Solutions
+                    </div>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="text-gray-300 hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                        <a href="services.html" class="text-gray-300 hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Services</a>
+                        <a href="portfolio.html" class="text-gray-300 hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Portfolio</a>
+                        <a href="contact.html" class="text-cyan-400 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Contact</a>
+                    </div>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-900 bg-opacity-95">
+                <a href="index.html" class="text-gray-300 hover:text-cyan-400 block px-3 py-2 text-base font-medium">Home</a>
+                <a href="services.html" class="text-gray-300 hover:text-cyan-400 block px-3 py-2 text-base font-medium">Services</a>
+                <a href="portfolio.html" class="text-gray-300 hover:text-cyan-400 block px-3 py-2 text-base font-medium">Portfolio</a>
+                <a href="contact.html" class="text-cyan-400 block px-3 py-2 text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="contact-hero pt-24 pb-16">
+        <div class="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl lg:text-6xl font-bold mb-6">
+                    Let's Build Something <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Amazing</span>
+                </h1>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto font-body">
+                    Ready to transform your business with cutting-edge technology? 
+                    Get in touch with our experts for a free consultation and project estimate.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Methods -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="contact-card fade-in-up">
+                    <div class="w-16 h-16 bg-cyan-400/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Email Us</h3>
+                    <p class="text-gray-400 mb-4">Get a response within 24 hours</p>
+                    <a href="mailto:elitesolutions187@gmail.com" class="text-cyan-400 hover:text-cyan-300 font-medium">
+                        elitesolutions187@gmail.com
+                    </a>
+                </div>
+                
+                <div class="contact-card fade-in-up">
+                    <div class="w-16 h-16 bg-cyan-400/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Call Us</h3>
+                    <p class="text-gray-400 mb-4">Mon-Fri 9AM-6PM EST</p>
+                    <a href="tel:+254712777875" class="text-cyan-400 hover:text-cyan-300 font-medium">
+                        +254 712 777 875
+                    </a>
+                </div>
+                
+                <div class="contact-card fade-in-up">
+                    <div class="w-16 h-16 bg-cyan-400/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-cyan-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Visit Us</h3>
+                    <p class="text-gray-400 mb-4">Kenol<br>Murang'a County, Kenya</p>
+                    <button class="text-cyan-400 hover:text-cyan-300 font-medium" onclick="scrollToMap()">
+                        View on Map →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Contact Form -->
+    <section class="py-20 bg-gray-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in-up">
+                <h2 class="text-4xl font-bold mb-4">
+                    Get Your <span class="text-cyan-400">Free Consultation</span>
+                </h2>
+                <p class="text-xl text-gray-300">
+                    Tell us about your project and we'll provide a custom solution
+                </p>
+            </div>
+            
+            <div class="bg-gray-900 rounded-2xl p-8 fade-in-up">
+                <form id="contact-form" class="space-y-6">
+                    <!-- Success/Error Messages -->
+                    <div id="form-message" class="message"></div>
+                    
+                    <!-- Personal Information -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label class="form-label" for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" class="form-input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="form-input">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="company">Company Name</label>
+                        <input type="text" id="company" name="company" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="budget">Project Budget</label>
+                        <select id="budget" name="budget" class="form-input form-select">
+                            <option value="">Select budget range</option>
+                            <option value="under-5k">Under $5,000</option>
+                            <option value="5k-15k">$5,000 - $15,000</option>
+                            <option value="15k-25k">$15,000 - $25,000</option>
+                            <option value="25k-50k">$25,000 - $50,000</option>
+                            <option value="over-50k">Over $50,000</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Service Selection -->
+                    <div class="form-group">
+                        <label class="form-label">Services Needed *</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="service-option" data-service="software">
+                                <h4 class="font-semibold mb-1">Software Development</h4>
+                                <p class="text-sm text-gray-400">Custom applications and enterprise solutions</p>
+                            </div>
+                            <div class="service-option" data-service="mobile">
+                                <h4 class="font-semibold mb-1">Mobile App Development</h4>
+                                <p class="text-sm text-gray-400">iOS, Android, and cross-platform apps</p>
+                            </div>
+                            <div class="service-option" data-service="web">
+                                <h4 class="font-semibold mb-1">Web Development</h4>
+                                <p class="text-sm text-gray-400">Websites and web applications</p>
+                            </div>
+                            <div class="service-option" data-service="data">
+                                <h4 class="font-semibold mb-1">Data Analysis</h4>
+                                <p class="text-sm text-gray-400">Business intelligence and analytics</p>
+                            </div>
+                            <div class="service-option" data-service="cctv">
+                                <h4 class="font-semibold mb-1">CCTV Installation</h4>
+                                <p class="text-sm text-gray-400">Security camera systems</p>
+                            </div>
+                            <div class="service-option" data-service="support">
+                                <h4 class="font-semibold mb-1">IT Support</h4>
+                                <p class="text-sm text-gray-400">Ongoing technical support</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="timeline">Project Timeline</label>
+                        <select id="timeline" name="timeline" class="form-input form-select">
+                            <option value="">Select timeline</option>
+                            <option value="asap">ASAP</option>
+                            <option value="1-month">Within 1 month</option>
+                            <option value="3-months">Within 3 months</option>
+                            <option value="6-months">Within 6 months</option>
+                            <option value="flexible">Flexible</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="message">Project Description *</label>
+                        <textarea id="message" name="message" class="form-input form-textarea" 
+                                  placeholder="Tell us about your project, goals, and any specific requirements..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="newsletter" name="newsletter" class="mr-3">
+                            <span class="text-sm text-gray-400">
+                                Subscribe to our newsletter for tech insights and updates
+                            </span>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" id="submit-btn">
+                        <span class="btn-text">Get Free Consultation</span>
+                        <span class="spinner" style="display: none;"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Map Section -->
+    <section id="map-section" class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 fade-in-up">
+                <h2 class="text-4xl font-bold mb-4">
+                    Find Us <span class="text-cyan-400">On The Map</span>
+                </h2>
+                <p class="text-xl text-gray-300">
+                    Visit our office for a face-to-face consultation
+                </p>
+            </div>
+            
+            <div class="fade-in-up">
+                <div id="map"></div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="text-4xl font-bold mb-4">
+                    Frequently Asked <span class="text-cyan-400">Questions</span>
+                </h2>
+                <p class="text-xl text-gray-300">
+                    Quick answers to common questions about our services
+                </p>
+            </div>
+            
+            <div class="space-y-4 fade-in-up">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How long does a typical project take?</span>
+                        <svg class="w-5 h-5 faq-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        Project timelines vary based on complexity. Simple websites take 2-4 weeks, 
+                        while complex software applications can take 3-6 months. We provide detailed 
+                        timelines during the consultation phase.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What is your pricing structure?</span>
+                        <svg class="w-5 h-5 faq-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        We offer both fixed-price projects and hourly rates depending on your needs. 
+                        Our pricing starts at $2,500 for basic projects. We provide transparent quotes 
+                        with no hidden fees after understanding your requirements.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Do you provide ongoing support and maintenance?</span>
+                        <svg class="w-5 h-5 faq-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        Yes! We offer comprehensive support and maintenance packages. This includes bug fixes, 
+                        security updates, performance optimization, and feature enhancements. Support plans 
+                        start at $100/month.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What technologies do you work with?</span>
+                        <svg class="w-5 h-5 faq-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        We work with modern, proven technologies including React, Node.js, Python, .NET, 
+                        AWS, Azure, and more. We choose the best technology stack based on your specific 
+                        requirements and long-term goals.
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can you work with our existing systems?</span>
+                        <svg class="w-5 h-5 faq-icon" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="faq-answer">
+                        Absolutely! We have extensive experience in system integration and can work with your 
+                        existing infrastructure. We'll ensure seamless integration while minimizing disruption 
+                        to your current operations.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTA Section -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="fade-in-up">
+                <h2 class="text-4xl font-bold mb-6">
+                    Ready to Get Started?
+                </h2>
+                <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                    Don't let technology challenges hold your business back. 
+                    Contact us today and let's create something amazing together.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="btn-primary sm:w-auto" onclick="scrollToForm()">
+                        Start Your Project
+                    </button>
+                    <button class="btn-secondary sm:w-auto" onclick="window.location.href='portfolio.html'">
+                        View Our Work
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-white mb-4">
+                    <span class="text-cyan-400">Elite</span>Solutions
+                </div>
+                <p class="text-gray-400 mb-6">
+                    Transforming businesses through innovative technology solutions
+                </p>
+                <div class="flex justify-center space-x-6 mb-8">
+                    <a href="mailto:elitesolutions187@gmail.com" class="text-gray-400 hover:text-cyan-400 transition-colors">
+                        elitesolutions187@gmail.com
+                    </a>
+                    <a href="tel:+254712777875" class="text-gray-400 hover:text-cyan-400 transition-colors">
+                        +254 712 777 875
+                    </a>
+                </div>
+                <p class="text-gray-500 text-sm">
+                    © 2024 EliteSolutions. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Initialize page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeScrollAnimations();
+            initializeContactForm();
+            initializeServiceSelection();
+            initializeMap();
+            initializeMobileMenu();
+        });
+        
+        // Scroll animations
+        function initializeScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.fade-in-up').forEach(el => {
+                observer.observe(el);
+            });
+        }
+        
+        // Contact form functionality
+        function initializeContactForm() {
+            const form = document.getElementById('contact-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const spinner = submitBtn.querySelector('.spinner');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                if (!validateForm()) {
+                    return;
+                }
+                
+                // Show loading state
+                submitBtn.disabled = true;
+                btnText.style.display = 'none';
+                spinner.style.display = 'inline-block';
+                
+                // Simulate form submission (replace with actual API call)
+                setTimeout(() => {
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    btnText.style.display = 'inline';
+                    spinner.style.display = 'none';
+                    
+                    // Show success message
+                    showMessage('Thank you! We\'ll contact you within 24 hours to discuss your project.', 'success');
+                    
+                    // Reset form
+                    form.reset();
+                    clearServiceSelection();
+                }, 2000);
+            });
+        }
+        
+        // Form validation
+        function validateForm() {
+            const requiredFields = document.querySelectorAll('.form-input[required]');
+            const selectedServices = document.querySelectorAll('.service-option.selected');
+            let isValid = true;
+            
+            // Clear previous errors
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.classList.remove('error');
+            });
+            
+            // Check required fields
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('error');
+                    isValid = false;
+                }
+            });
+            
+            // Check if at least one service is selected
+            if (selectedServices.length === 0) {
+                showMessage('Please select at least one service.', 'error');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+        
+        // Service selection
+        function initializeServiceSelection() {
+            const serviceOptions = document.querySelectorAll('.service-option');
+            
+            serviceOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                });
+            });
+        }
+        
+        // Clear service selection
+        function clearServiceSelection() {
+            document.querySelectorAll('.service-option.selected').forEach(option => {
+                option.classList.remove('selected');
+            });
+        }
+        
+        // Show message
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('form-message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.style.display = 'block';
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+        
+        // FAQ functionality
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        }
+        
+        // Initialize map
+        function initializeMap() {
+            // Initialize Google Map
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -1.0235, lng: 37.0528 }, // Kenol, Murang'a County, Kenya
+                zoom: 15,
+                styles: [
+                    { elementType: 'geometry', stylers: [{ color: '#1a1a1a' }] },
+                    { elementType: 'labels.text.stroke', stylers: [{ color: '#1a1a1a' }] },
+                    { elementType: 'labels.text.fill', stylers: [{ color: '#00d4ff' }] },
+                    {
+                        featureType: 'road',
+                        elementType: 'geometry',
+                        stylers: [{ color: '#2d3748' }]
+                    }
+                ]
+            });
+            
+            // Add marker for office location
+            const marker = new google.maps.Marker({
+                position: { lat: -1.0235, lng: 37.0528 },
+                map: map,
+                title: 'EliteSolutions - Kenol, Murang\'a County'
+            });
+            
+            const infoWindow = new google.maps.InfoWindow({
+                content: '<div style="color: #1a1a1a;"><b>EliteSolutions</b><br>Kenol<br>Murang\'a County, Kenya</div>'
+            });
+            
+            marker.addListener('click', function() {
+                infoWindow.open(map, marker);
+            });
+        }
+        
+        // Utility functions
+        function scrollToMap() {
+            document.getElementById('map-section').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+        
+        function scrollToForm() {
+            document.getElementById('contact-form').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+        
+        // Mobile menu functionality
+        function initializeMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        }
+        
+        // Form field animations
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

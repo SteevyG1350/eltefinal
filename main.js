@@ -345,35 +345,19 @@ function updateProjectSummary() {
 }
 
 function submitProject() {
-    const contactForm = document.getElementById('contact-form');
+    const form = document.getElementById('contact-form');
+    const formData = new FormData(form);
     
-    const formData = {
-        fullName: contactForm.querySelector('input[type="text"]').value,
-        email: contactForm.querySelector('input[type="email"]').value,
-        phone: contactForm.querySelector('input[type="tel"]').value,
-        company: contactForm.querySelector('input[type="text"][name="company"]').value,
-        projectDetails: projectData // projectData is already populated
-    };
-
-    fetch('http://localhost:3000/submit-project', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => {
-        if (response.ok) {
-            showNotification('Thank you! Your project details have been submitted. We\'ll contact you within 24 hours.', 'success');
-            resetConfigurator();
-        } else {
-            showNotification('Oops! Something went wrong with your submission. Please try again later.', 'error');
-        }
-    })
-    .catch(error => {
-        console.error('Error submitting project:', error);
-        showNotification('Oops! Something went wrong with your submission. Please try again later.', 'error');
-    });
+    // Add project data to form data
+    formData.append('project', JSON.stringify(projectData));
+    
+    // Show success message
+    showNotification('Thank you! We\'ll contact you within 24 hours to discuss your project.', 'success');
+    
+    // Reset form after delay
+    setTimeout(() => {
+        resetConfigurator();
+    }, 3000);
 }
 
 function resetConfigurator() {

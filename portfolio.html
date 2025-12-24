@@ -14,6 +14,8 @@
     
     <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
     
     <style>
         :root {
@@ -263,7 +265,6 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="light-mode.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -282,11 +283,6 @@
                         <a href="services.html" class="text-gray-300 hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Services</a>
                         <a href="portfolio.html" class="text-cyan-400 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Portfolio</a>
                         <a href="contact.html" class="text-gray-300 hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Contact</a>
-                        <button id="light-mode-toggle" class="text-gray-300 hover:text-white">
-                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                        </button>
                     </div>
                 </div>
                 
@@ -924,7 +920,142 @@
         </div>
     </footer>
     
-    <script src="shared.js"></script>
-    <script src="portfolio.js"></script>
-</body>
-</html>
+    <script>
+        // Initialize scroll animations and functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeScrollAnimations();
+            initializeFilters();
+            initializeStatsCounter();
+            initializeMobileMenu();
+        });
+        
+        // Scroll animations
+        function initializeScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.fade-in-up').forEach(el => {
+                observer.observe(el);
+            });
+        }
+        
+        // Stats counter animation
+        function initializeStatsCounter() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            const animateCounter = (element) => {
+                const target = parseInt(element.getAttribute('data-target'));
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.floor(current);
+                }, 16);
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            
+            statNumbers.forEach(stat => observer.observe(stat));
+        }
+        
+        // Filter functionality
+        function initializeFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    projectCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'block';
+                        } else {
+                            const categories = card.getAttribute('data-category');
+                            if (categories.includes(filter)) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+        }
+        
+        // Modal functionality
+        function openModal(projectId) {
+            const modal = document.getElementById(`modal-${projectId}`);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeModal(projectId) {
+            const modal = document.getElementById(`modal-${projectId}`);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        // Close modal when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Mobile menu functionality
+        function initializeMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        }
+        
+        // Keyboard navigation for modals
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const activeModal = document.querySelector('.modal.active');
+                if (activeModal) {
+                    activeModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+    </script

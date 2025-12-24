@@ -15,7 +15,6 @@
     <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dONTb4i1Vmjc0k"></script>
-    <link rel="stylesheet" href="light-mode.css">
     
     <style>
         :root {
@@ -335,11 +334,6 @@
                         <a href="services.html" class="text-gray-300 hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Services</a>
                         <a href="portfolio.html" class="text-gray-300 hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Portfolio</a>
                         <a href="contact.html" class="text-cyan-400 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Contact</a>
-                        <button id="light-mode-toggle" class="text-gray-300 hover:text-white">
-                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                        </button>
                     </div>
                 </div>
                 
@@ -702,8 +696,219 @@
         </div>
     </footer>
     
-    <script src="shared.js"></script>
-    <script src="contact.js"></script>
-    <script src="light-mode.js"></script>
+    <script>
+        // Initialize page functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeScrollAnimations();
+            initializeContactForm();
+            initializeServiceSelection();
+            initializeMap();
+            initializeMobileMenu();
+        });
+        
+        // Scroll animations
+        function initializeScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.fade-in-up').forEach(el => {
+                observer.observe(el);
+            });
+        }
+        
+        // Contact form functionality
+        function initializeContactForm() {
+            const form = document.getElementById('contact-form');
+            const submitBtn = document.getElementById('submit-btn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const spinner = submitBtn.querySelector('.spinner');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                if (!validateForm()) {
+                    return;
+                }
+                
+                // Show loading state
+                submitBtn.disabled = true;
+                btnText.style.display = 'none';
+                spinner.style.display = 'inline-block';
+                
+                // Simulate form submission (replace with actual API call)
+                setTimeout(() => {
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    btnText.style.display = 'inline';
+                    spinner.style.display = 'none';
+                    
+                    // Show success message
+                    showMessage('Thank you! We\'ll contact you within 24 hours to discuss your project.', 'success');
+                    
+                    // Reset form
+                    form.reset();
+                    clearServiceSelection();
+                }, 2000);
+            });
+        }
+        
+        // Form validation
+        function validateForm() {
+            const requiredFields = document.querySelectorAll('.form-input[required]');
+            const selectedServices = document.querySelectorAll('.service-option.selected');
+            let isValid = true;
+            
+            // Clear previous errors
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.classList.remove('error');
+            });
+            
+            // Check required fields
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('error');
+                    isValid = false;
+                }
+            });
+            
+            // Check if at least one service is selected
+            if (selectedServices.length === 0) {
+                showMessage('Please select at least one service.', 'error');
+                isValid = false;
+            }
+            
+            return isValid;
+        }
+        
+        // Service selection
+        function initializeServiceSelection() {
+            const serviceOptions = document.querySelectorAll('.service-option');
+            
+            serviceOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                });
+            });
+        }
+        
+        // Clear service selection
+        function clearServiceSelection() {
+            document.querySelectorAll('.service-option.selected').forEach(option => {
+                option.classList.remove('selected');
+            });
+        }
+        
+        // Show message
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('form-message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.style.display = 'block';
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+        
+        // FAQ functionality
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        }
+        
+        // Initialize map
+        function initializeMap() {
+            // Initialize Google Map
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -1.0235, lng: 37.0528 }, // Kenol, Murang'a County, Kenya
+                zoom: 15,
+                styles: [
+                    { elementType: 'geometry', stylers: [{ color: '#1a1a1a' }] },
+                    { elementType: 'labels.text.stroke', stylers: [{ color: '#1a1a1a' }] },
+                    { elementType: 'labels.text.fill', stylers: [{ color: '#00d4ff' }] },
+                    {
+                        featureType: 'road',
+                        elementType: 'geometry',
+                        stylers: [{ color: '#2d3748' }]
+                    }
+                ]
+            });
+            
+            // Add marker for office location
+            const marker = new google.maps.Marker({
+                position: { lat: -1.0235, lng: 37.0528 },
+                map: map,
+                title: 'EliteSolutions - Kenol, Murang\'a County'
+            });
+            
+            const infoWindow = new google.maps.InfoWindow({
+                content: '<div style="color: #1a1a1a;"><b>EliteSolutions</b><br>Kenol<br>Murang\'a County, Kenya</div>'
+            });
+            
+            marker.addListener('click', function() {
+                infoWindow.open(map, marker);
+            });
+        }
+        
+        // Utility functions
+        function scrollToMap() {
+            document.getElementById('map-section').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+        
+        function scrollToForm() {
+            document.getElementById('contact-form').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+        
+        // Mobile menu functionality
+        function initializeMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        }
+        
+        // Form field animations
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
 </body>
 </html>

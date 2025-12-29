@@ -11,7 +11,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Helper to create transporter from env vars
-function createTransporter() {
+async function createTransporter() {
     const host = process.env.SMTP_HOST;
     const port = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : undefined;
     const user = process.env.SMTP_USER;
@@ -19,28 +19,38 @@ function createTransporter() {
     const secure = process.env.SMTP_SECURE === 'true';
 
     if (host && user && pass) {
-        return nodemailer.createTransport({ host, port, secure, auth: { user, pass } });
+        return { transporter: nodemailer.createTransport({ host, port, secure, auth: { user, pass } }), isTest: false };
     }
 
     // Fallback to provider/service if provided (e.g., Gmail)
     const service = process.env.SMTP_SERVICE;
     if (service && user && pass) {
-        return nodemailer.createTransport({ service, auth: { user, pass } });
+        return { transporter: nodemailer.createTransport({ service, auth: { user, pass } }), isTest: false };
     }
 
-    throw new Error('SMTP configuration is missing. Set SMTP_HOST/SMTP_USER/SMTP_PASS or SMTP_SERVICE in environment.');
+    // If no SMTP configured, create and use an Ethereal test account (free, for development/testing)
+    const testAccount = await nodemailer.createTestAccount();
+    const transporter = nodemailer.createTransport({
+        host: testAccount.smtp.host,
+        port: testAccount.smtp.port,
+        secure: testAccount.smtp.secure,
+        auth: { user: testAccount.user, pass: testAccount.pass }
+    });
+
+    return { transporter, isTest: true, testAccount };
 }
 
 app.post('/send-email', async (req, res) => {
     const { firstName, lastName, email, phone, company, budget, services, timeline, message, newsletter } = req.body;
 
-    let transporter;
+    let transporterInfo;
     try {
-        transporter = createTransporter();
+        transporterInfo = await createTransporter();
     } catch (err) {
-        console.error(err.message);
-        return res.status(500).send('Server email configuration issue.');
+        console.error(err && err.message ? err.message : err);
+        return res.status(500).json({ error: 'Server email configuration issue.' });
     }
+    const transporter = transporterInfo.transporter;
 
     const mailOptions = {
         from: email,
@@ -60,24 +70,29 @@ app.post('/send-email', async (req, res) => {
     };
 
     try {
-        await transporter.sendMail(mailOptions);
-        res.status(200).send('Email sent successfully!');
+        const info = await transporter.sendMail(mailOptions);
+        if (transporterInfo.isTest) {
+            const previewUrl = nodemailer.getTestMessageUrl(info);
+            return res.status(200).json({ ok: true, previewUrl });
+        }
+        return res.status(200).json({ ok: true });
     } catch (error) {
         console.error('Error sending email:', error);
-        res.status(500).send('Error sending email.');
+        return res.status(500).json({ error: 'Error sending email.' });
     }
 });
 
 app.post('/submit-project', async (req, res) => {
     const { fullName, email, phone, company, projectDetails } = req.body;
 
-    let transporter;
+    let transporterInfo;
     try {
-        transporter = createTransporter();
+        transporterInfo = await createTransporter();
     } catch (err) {
-        console.error(err.message);
-        return res.status(500).send('Server email configuration issue.');
+        console.error(err && err.message ? err.message : err);
+        return res.status(500).json({ error: 'Server email configuration issue.' });
     }
+    const transporter = transporterInfo.transporter;
 
     const mailOptions = {
         from: email,
@@ -100,11 +115,15 @@ app.post('/submit-project', async (req, res) => {
     };
 
     try {
-        await transporter.sendMail(mailOptions);
-        res.status(200).send('Project details submitted successfully!');
+        const info = await transporter.sendMail(mailOptions);
+        if (transporterInfo.isTest) {
+            const previewUrl = nodemailer.getTestMessageUrl(info);
+            return res.status(200).json({ ok: true, previewUrl });
+        }
+        return res.status(200).json({ ok: true });
     } catch (error) {
         console.error('Error submitting project details:', error);
-        res.status(500).send('Error submitting project details.');
+        return res.status(500).json({ error: 'Error submitting project details.' });
     }
 });
 

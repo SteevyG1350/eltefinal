@@ -815,12 +815,24 @@
                     btnText.style.display = 'inline';
                     spinner.style.display = 'none';
 
+                    const data = await res.json().catch(() => null);
+
                     if (res.ok) {
                         showMessage('Thank you! We\'ve received your message and will contact you within 24 hours.', 'success');
+                        if (data && data.previewUrl) {
+                            const messageEl = document.getElementById('form-message');
+                            const link = document.createElement('a');
+                            link.href = data.previewUrl;
+                            link.target = '_blank';
+                            link.rel = 'noopener noreferrer';
+                            link.textContent = 'View email preview (test)';
+                            link.className = 'text-sm block mt-2 text-cyan-400 underline';
+                            messageEl.appendChild(link);
+                        }
                         form.reset();
                         clearServiceSelection();
                     } else {
-                        const txt = await res.text().catch(() => 'Server error');
+                        const txt = (data && data.error) ? data.error : await res.text().catch(() => 'Server error');
                         showMessage('Error sending message: ' + txt, 'error');
                     }
                 })

@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeScrollAnimations();
     initializeTypewriter();
     initializeClerkGuard();
+    initializeFooterYear();
 });
 
 // Typewriter effect for hero text
@@ -97,6 +98,17 @@ function initializeClerkGuard() {
             });
         });
     });
+}
+
+// Set dynamic year in footer elements with class `current-year`
+function initializeFooterYear() {
+    try {
+        const yearEls = document.querySelectorAll('.current-year');
+        const year = new Date().getFullYear();
+        yearEls.forEach(el => { el.textContent = year; });
+    } catch (e) {
+        console.warn('Failed to initialize footer year:', e);
+    }
 }
 
 // Code rain background effect

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
@@ -9,17 +10,37 @@ const port = 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
+// Helper to create transporter from env vars
+function createTransporter() {
+    const host = process.env.SMTP_HOST;
+    const port = process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT, 10) : undefined;
+    const user = process.env.SMTP_USER;
+    const pass = process.env.SMTP_PASS;
+    const secure = process.env.SMTP_SECURE === 'true';
+
+    if (host && user && pass) {
+        return nodemailer.createTransport({ host, port, secure, auth: { user, pass } });
+    }
+
+    // Fallback to provider/service if provided (e.g., Gmail)
+    const service = process.env.SMTP_SERVICE;
+    if (service && user && pass) {
+        return nodemailer.createTransport({ service, auth: { user, pass } });
+    }
+
+    throw new Error('SMTP configuration is missing. Set SMTP_HOST/SMTP_USER/SMTP_PASS or SMTP_SERVICE in environment.');
+}
+
 app.post('/send-email', async (req, res) => {
     const { firstName, lastName, email, phone, company, budget, services, timeline, message, newsletter } = req.body;
 
-    // Create a Nodemailer transporter using your email service details
-    const transporter = nodemailer.createTransport({
-        service: 'Gmail', // e.g., 'Gmail', 'Outlook'
-        auth: {
-            user: 'your-email@example.com', // Replace with your email
-            pass: 'your-email-password' // Replace with your email password or app-specific password
-        }
-    });
+    let transporter;
+    try {
+        transporter = createTransporter();
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server email configuration issue.');
+    }
 
     const mailOptions = {
         from: email,
@@ -50,13 +71,13 @@ app.post('/send-email', async (req, res) => {
 app.post('/submit-project', async (req, res) => {
     const { fullName, email, phone, company, projectDetails } = req.body;
 
-    const transporter = nodemailer.createTransport({
-        service: 'Gmail', // e.g., 'Gmail', 'Outlook'
-        auth: {
-            user: 'your-email@example.com', // Replace with your email
-            pass: 'your-email-password' // Replace with your email password or app-specific password
-        }
-    });
+    let transporter;
+    try {
+        transporter = createTransporter();
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send('Server email configuration issue.');
+    }
 
     const mailOptions = {
         from: email,

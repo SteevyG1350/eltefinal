@@ -78,8 +78,31 @@ document.addEventListener('DOMContentLoaded', function() {
         body.classList.add('light-mode');
     }
 
+    // Swap images/backgrounds for current theme
+    function applyThemeAssets() {
+        const isLight = body.classList.contains('light-mode');
+
+        // Swap <img> elements with data-dark-src / data-light-src
+        document.querySelectorAll('img[data-dark-src]').forEach(img => {
+            const dark = img.getAttribute('data-dark-src');
+            const light = img.getAttribute('data-light-src') || dark;
+            img.src = isLight ? light : dark;
+        });
+
+        // Swap hero/background CSS custom property on elements with data-hero-dark
+        document.querySelectorAll('[data-hero-dark]').forEach(el => {
+            const dark = el.getAttribute('data-hero-dark');
+            const light = el.getAttribute('data-hero-light') || dark;
+            el.style.setProperty('--hero-bg', `url('${isLight ? light : dark}')`);
+        });
+    }
+
+    // Initial apply
+    applyThemeAssets();
+
     lightModeToggle.addEventListener('click', function() {
         body.classList.toggle('light-mode');
+        applyThemeAssets();
 
         // Save theme preference to localStorage
         if (body.classList.contains('light-mode')) {

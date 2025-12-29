@@ -11,6 +11,7 @@
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="light-mode.css">
     
     <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
@@ -67,7 +68,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('resources/hero-digital-abstract.jpg') center/cover;
+            background: var(--hero-bg) center/cover;
             opacity: 0.3;
             z-index: 1;
         }
@@ -330,6 +331,9 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
+                    <button id="light-mode-toggle" aria-label="Toggle theme" class="ml-3 text-gray-300 hover:text-white">
+                        ☀️/🌙
+                    </button>
                 </div>
             </div>
         </div>
@@ -346,7 +350,7 @@
     </nav>
     
     <!-- Hero Section -->
-    <section class="hero-bg min-h-screen flex items-center pt-16">
+    <section class="hero-bg min-h-screen flex items-center pt-16" data-hero-dark="resources/hero-digital-abstract.jpg" data-hero-light="resources/hero-tech-workspace.jpg" style="--hero-bg: url('resources/hero-digital-abstract.jpg')">
         <div class="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div class="fade-in-up">
@@ -373,8 +377,8 @@
                 
                 <div class="fade-in-up">
                     <div class="relative">
-                        <img src="resources/hero-tech-workspace.jpg" alt="Elite Technology Workspace" 
-                             class="rounded-2xl shadow-2xl glow-blue">
+                            <img src="resources/hero-tech-workspace.jpg" data-dark-src="resources/hero-tech-workspace.jpg" data-light-src="resources/hero-digital-abstract.jpg" alt="Elite Technology Workspace" 
+                                class="rounded-2xl shadow-2xl glow-blue">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
                     </div>
                 </div>

@@ -284,6 +284,7 @@
                         <a href="services.html" class="text-gray-300 hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Services</a>
                         <a href="portfolio.html" class="text-cyan-400 hover:text-white px-3 py-2 text-sm font-medium transition-colors">Portfolio</a>
                         <a href="contact.html" class="text-gray-300 hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Contact</a>
+                        <a href="privacy.html" class="text-gray-300 hover:text-cyan-400 px-3 py-2 text-sm font-medium transition-colors">Privacy</a>
                     </div>
                 </div>
                 
@@ -293,9 +294,11 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
-                    <button id="light-mode-toggle" aria-label="Toggle theme" class="ml-3 text-gray-300 hover:text-white">
-                        ☀️/🌙
-                    </button>
+                    <select id="theme-select" aria-label="Theme selector" class="ml-3 bg-transparent text-gray-300 border border-transparent focus:outline-none">
+                        <option value="dark">Dark</option>
+                        <option value="light">Light</option>
+                        <option value="white">White</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -312,7 +315,7 @@
     </nav>
     
     <!-- Hero Section -->
-    <section class="portfolio-hero pt-24 pb-16" data-hero-dark="resources/hero-digital-abstract.jpg" data-hero-light="resources/hero-tech-workspace.jpg" style="--hero-bg: url('resources/hero-digital-abstract.jpg')">
+    <section class="portfolio-hero pt-24 pb-16" data-hero-dark="resources/hero-digital-abstract.jpg" data-hero-light="resources/hero-tech-workspace.jpg" data-hero-white="resources/hero-tech-workspace.jpg" style="--hero-bg: url('resources/hero-digital-abstract.jpg')">
         <div class="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center">
                 <h1 class="text-5xl lg:text-6xl font-bold mb-6">

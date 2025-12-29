@@ -18,6 +18,47 @@ body.light-mode {
     color: var(--text-primary-light);
 }
 
+/* White theme (brighter than light-mode) */
+body.white-mode {
+    --primary-bg: #ffffff;
+    --secondary-bg: #ffffff;
+    --accent-blue: #0d6efd;
+    --accent-cyan: #0dcaf0;
+    --text-primary: #0b0b0b;
+    --text-secondary: #6c757d;
+    background: #ffffff;
+    color: var(--text-primary);
+}
+
+.white-mode .nav-blur {
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.white-mode .text-white{
+    color: var(--text-primary);
+}
+
+.white-mode .text-gray-300{
+    color: var(--text-secondary);
+}
+
+.white-mode .hero-bg {
+    background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.white-mode .hero-bg::before { opacity: 0.08; }
+
+.white-mode .service-card, .white-mode .service-detail-card, .white-mode .project-card, .white-mode .contact-card {
+    background: var(--secondary-bg);
+    border-color: rgba(0,0,0,0.06);
+}
+
+.white-mode .footer {
+    background: #ffffff;
+    border-top: 1px solid rgba(0,0,0,0.06);
+}
+
 .light-mode .nav-blur {
     background: rgba(255, 255, 255, 0.8);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);

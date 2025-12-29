@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeStatsCounter();
     initializeScrollAnimations();
     initializeTypewriter();
+    initializeClerkGuard();
 });
 
 // Typewriter effect for hero text
@@ -37,6 +38,65 @@ function initializeTypewriter() {
             cursorChar: '|'
         });
     }
+}
+
+// Initialize a safe Clerk sign-in guard to avoid opening the sign-in
+// widget when a user is already authenticated. This creates a global
+// helper `openClerkSignInSafely()` and wires common sign-in buttons
+// (selectors) to call it.
+function initializeClerkGuard() {
+    // Expose a default no-op so callers can safely call it immediately
+    window.openClerkSignInSafely = function() {
+        console.warn('Clerk not loaded yet or no sign-in action available.');
+    };
+
+    // Attempt to load Clerk if present on the page
+    try {
+        if (window.Clerk) {
+            // Clerk v4+ exposes Clerk.load()
+            Clerk.load().then((clerk) => {
+                window.openClerkSignInSafely = function() {
+                    try {
+                        // If a user/session exists, don't open the sign-in UI
+                        if (clerk && clerk.user) {
+                            console.log('Clerk: user already signed in:', clerk.user.primaryEmailAddress || clerk.user.id);
+                            return;
+                        }
+                        // Otherwise open the Clerk sign-in widget (if available)
+                        if (typeof clerk.openSignIn === 'function') {
+                            clerk.openSignIn();
+                        } else if (typeof Clerk.openSignIn === 'function') {
+                            Clerk.openSignIn();
+                        } else {
+                            console.warn('Clerk loaded but no openSignIn() function found.');
+                        }
+                    } catch (e) {
+                        console.error('Error while attempting to open Clerk sign-in:', e);
+                    }
+                };
+            }).catch((e) => {
+                console.warn('Clerk.load() failed or Clerk not initialized yet:', e);
+            });
+        }
+    } catch (e) {
+        console.warn('Error checking for Clerk:', e);
+    }
+
+    // Wire common sign-in button selectors to the safe opener so existing
+    // buttons start calling the guarded function instead of opening the
+    // widget unconditionally.
+    const signSelectors = ['#sign-in', '.sign-in', '.sign-in-btn', '[data-clerk-signin]'];
+    signSelectors.forEach(sel => {
+        document.querySelectorAll(sel).forEach(btn => {
+            // Avoid adding duplicate handlers
+            btn.addEventListener('click', function(evt) {
+                evt.preventDefault();
+                if (typeof window.openClerkSignInSafely === 'function') {
+                    window.openClerkSignInSafely();
+                }
+            });
+        });
+    });
 }
 
 // Code rain background effect

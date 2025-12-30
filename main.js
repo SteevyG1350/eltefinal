@@ -1,13 +1,11 @@
 // EliteSolutions - Main JavaScript File
-// Handles all interactions, animations, and functionality
 
-// Global variables
 let currentStep = 1;
 let selectedServices = [];
 let projectData = {};
+let codeRainAnimationId = null;
 
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+function init() {
     initializeAnimations();
     initializeCodeRain();
     initializeMobileMenu();
@@ -17,7 +15,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeTypewriter();
     initializeClerkGuard();
     initializeFooterYear();
-});
+    preloadImages();
+    setupVisibilityHandler();
+}
+
+document.addEventListener('DOMContentLoaded', init);
 
 // Typewriter effect for hero text
 function initializeTypewriter() {
@@ -278,6 +280,69 @@ function initializeServiceConfigurator() {
     
     serviceOptions.forEach(option => {
         option.addEventListener('click', function() {
+            this.classList.toggle('selected');
+            const serviceId = this.dataset.service;
+            
+            if (this.classList.contains('selected')) {
+                selectedServices.push(serviceId);
+            } else {
+                selectedServices = selectedServices.filter(id => id !== serviceId);
+            }
+            
+            updateProjectEstimate();
+        });
+    });
+}
+
+// Update project estimate based on selected services
+function updateProjectEstimate() {
+    const estimateEl = document.getElementById('project-estimate');
+    if (!estimateEl) return;
+    
+    const basePrices = {
+        'web-dev': 5000,
+        'mobile-app': 8000,
+        'data-analytics': 6000,
+        'cloud-services': 4000,
+        'ai-ml': 10000,
+        'cybersecurity': 7000
+    };
+    
+    const total = selectedServices.reduce((sum, service) => {
+        return sum + (basePrices[service] || 0);
+    }, 0);
+    
+    estimateEl.textContent = `$${total.toLocaleString()}`;
+}
+
+// Preload critical images
+function preloadImages() {
+    const imageUrls = [
+        'assets/images/hero-bg.jpg',
+        'assets/images/team-bg.jpg',
+        'assets/images/services-bg.jpg'
+    ];
+    
+    imageUrls.forEach(url => {
+        const img = new Image();
+        img.src = url;
+    });
+}
+
+// Handle page visibility changes
+function setupVisibilityHandler() {
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            // Pause animations when page is hidden
+            if (codeRainAnimationId) {
+                clearInterval(codeRainAnimationId);
+            }
+        } else {
+            // Resume animations when page is visible
+            initializeCodeRain();
+        }
+    });
+}
             const service = this.getAttribute('data-service');
             const price = parseInt(this.getAttribute('data-price'));
             

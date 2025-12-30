@@ -12,7 +12,10 @@
   "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "nodemailer": "^7.0.12"
+    "express-rate-limit": "^7.1.5",
+    "nodemailer": "^7.0.12",
+    "validator": "^13.11.0"
   }
 }

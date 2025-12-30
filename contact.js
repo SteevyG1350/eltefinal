@@ -34,7 +34,7 @@ function initializeContactForm() {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/send-email', {
+            const response = await fetch(`${CONFIG.API_URL}/send-email`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -138,7 +138,11 @@ function toggleFAQ(element) {
 
 // Initialize map
 function initializeMap() {
-    // Initialize Google Map
+    if (typeof google === 'undefined' || !google.maps) {
+        console.warn('Google Maps API not loaded');
+        return;
+    }
+    
     const map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: -1.0235, lng: 37.0528 }, // Kenol, Murang'a County, Kenya
         zoom: 15,
